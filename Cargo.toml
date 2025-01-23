@@ -1,0 +1,22 @@
+[package]
+name = "ktest"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+proc-macro2 = "1"
+quote = "1"
+syn = { version = "2", features = ["full"] }
+testcontainers-modules = { version = "0.11.5", features = ["kwok"] }
+serde_json = "1"
+serde_yaml = "0.9"
+
+[dev-dependencies]
+kube = "0.98.0"
+k8s-openapi = { version = "0.24.0", default-features = false, features = [
+  "v1_30",
+] }
+tokio = { version = "1", features = ["full"] }
+
+[lib]
+proc-macro = true
