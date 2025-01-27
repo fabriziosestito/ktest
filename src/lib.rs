@@ -73,10 +73,17 @@ pub fn ktest(attr: TokenStream, item: TokenStream) -> TokenStream {
                 config::{AuthInfo, Cluster, KubeConfigOptions, Kubeconfig, NamedAuthInfo, NamedCluster},
                 Config,
             };
+            use rustls::crypto::CryptoProvider;
 
             let cluster_name = "kwok-kwok";
             let context_name = "kwok-kwok";
             let cluster_user = "kwok-kwok";
+
+            if CryptoProvider::get_default().is_none() {
+                rustls::crypto::ring::default_provider()
+                    .install_default()
+                    .expect("Error initializing rustls provider");
+            }
 
             let node = KwokCluster::default().start().await.unwrap();
             let host_port = node.get_host_port_ipv4(8080).await.unwrap();
